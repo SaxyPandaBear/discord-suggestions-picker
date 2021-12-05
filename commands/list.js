@@ -8,7 +8,6 @@ module.exports = {
 	async execute(interaction) {
         db.all(async rows => {
             const topics = rows.map(r => r.topic).join('\n\t');
-
             await interaction.reply(`Submitted topics: \n\t${topics}`);
         });
 	},

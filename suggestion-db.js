@@ -18,29 +18,16 @@ module.exports = {
     },
     clear() {
         lock.writeLock(function (release) {
-            db.run('TRUNCATE suggestions');
+            db.run('DELETE FROM suggestions');
             release();
         });
     },
     all(callback) {
-        // let topics = [];
-        // lock.readLock(function (release) {
-        //     db.all('SELECT * FROM suggestions', (err, rows) => {
-        //         topics = rows.map(r => r.topic);
-        //         console.log('A');
-        //         console.log(topics);
-        //     });
-        //     console.log('B')
-        //     console.log(topics);
-        //     release();
-        // });
-        // console.log('C');
-        // console.log(topics);
-        // return topics;
         lock.readLock(function (release) {
             db.all('SELECT * FROM suggestions', (err, rows) => {
-                callback(rows);
+                callback(rows); // in order to retrieve the rows, need to provide a callback function
             });
+            release();
         });
-    },    
+    },
 };
