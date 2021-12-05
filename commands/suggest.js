@@ -10,7 +10,11 @@ module.exports = {
                                          .setRequired(true)),
 	async execute(interaction) {
         const topic = interaction.options.getString('topic');
-        db.submit(topic);
-		await interaction.reply('Accepted.');
+        try {
+            db.submit(topic);
+		    await interaction.reply({ content: 'Successfully submitted', ephemeral: true });
+        } catch {
+            await interaction.reply({ content: 'Failed to submit', ephemeral: true });
+        }
 	},
 };
