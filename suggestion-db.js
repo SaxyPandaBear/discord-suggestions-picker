@@ -14,7 +14,7 @@ module.exports = {
             statement.run(suggestion);
             statement.finalize();
             release();
-        })
+        });
     },
     clear() {
         lock.writeLock(function (release) {
@@ -30,4 +30,12 @@ module.exports = {
             release();
         });
     },
+    remove(suggestion) {
+        const statement = db.prepare('DELETE FROM suggestions WHERE topic=?');
+        lock.writeLock(function (release) {
+            statement.run(suggestion);
+            statement.finalize();
+            release();
+        });
+    }
 };
